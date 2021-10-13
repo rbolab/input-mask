@@ -18,8 +18,8 @@
 <h2>Reactive Form</h2>
 <input
   [formControl]="ipAddress"
-  [inputMask]="ipAddressMask"
-  placeholder="IP Address"
+  [inputMask]="!flag ? dateInputMask : ipAddressMask"
+  [attr.placeholder]="!flag ? 'Date' : 'IP Address'"
 />
 Valid: {{ ipAddress.valid }} | Value: {{ ipAddress.value }} | Errors:
 {{ ipAddress.errors | json }}

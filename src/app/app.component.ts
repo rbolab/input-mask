@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { createMask } from '@ngneat/input-mask';
 
@@ -7,7 +7,7 @@ import { createMask } from '@ngneat/input-mask';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title: Date = new Date();
 
   dateInputMask = createMask<Date>({
@@ -46,4 +46,11 @@ export class AppComponent {
   ipAddress = new FormControl('');
   dateFC = new FormControl('', [Validators.required]);
   dateFCCustom = new FormControl('');
+  flag = true;
+
+  ngOnInit() {
+    setTimeout(() => {
+      this.flag = false;
+    }, 3000);
+  }
 }

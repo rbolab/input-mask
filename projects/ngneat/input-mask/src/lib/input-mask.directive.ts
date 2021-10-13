@@ -6,12 +6,14 @@ import {
   HostListener,
   Inject,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Optional,
   PLATFORM_ID,
   Renderer2,
   Self,
+  SimpleChanges,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -27,7 +29,13 @@ import { InputmaskOptions } from './types';
   selector: '[inputMask]',
 })
 export class InputMaskDirective<T = any>
-  implements OnInit, AfterViewInit, OnDestroy, ControlValueAccessor, Validator {
+  implements
+    OnInit,
+    AfterViewInit,
+    OnChanges,
+    OnDestroy,
+    ControlValueAccessor,
+    Validator {
   /**
    *Helps you to create input-mask based on https://github.com/RobinHerbots/Inputmask
    *Supports form-validation out-of-the box.
@@ -65,6 +73,15 @@ export class InputMaskDirective<T = any>
         : [this.validate.bind(this)]
     );
     this.ngControl?.control?.updateValueAndValidity();
+  }
+
+  ngOnChanges({ inputMask }: SimpleChanges) {
+    if (inputMask && !inputMask.isFirstChange() && inputMask.currentValue) {
+      this.inputMaskPlugin?.remove();
+      this.initInputMask();
+      // TODO: need to re-initialize registers
+      this.registerOnChange();
+    }
   }
 
   ngOnDestroy(): void {

@@ -33,7 +33,11 @@ class CustomInputComponent implements OnInit {
 @Component({
   template: `
     <input class="date" [inputMask]="dateMask" [formControl]="dateFC" />
-    <input class="ip" [inputMask]="ipAddressMask" [formControl]="ipFC" />
+    <input
+      class="ip"
+      [inputMask]="flag ? ipAddressMask : dateMask"
+      [formControl]="ipFC"
+    />
     <input class="initDate" [inputMask]="dateMask" [formControl]="initDateFC" />
     <lib-custom-input
       [formControl]="dateFCCustom"
@@ -63,6 +67,7 @@ class TestComponent {
 
   dateFCCustom = new FormControl('');
   isAsync = false;
+  flag = true;
 }
 
 describe('InputMaskDirective', () => {
@@ -158,4 +163,11 @@ describe('InputMaskDirective', () => {
     spectator.component.dateFCCustom.setValue('28/02/1992');
     expect(input.value).toEqual('28/02/1992');
   }));
+
+  it('should update the inputMask dynamically', () => {
+    spectator.component.flag = false;
+    spectator.detectChanges();
+    spectator.typeInElement('111111111111', '.ip');
+    expect(spectator.component.ipFC.value).toEqual(new Date(1111, 10, 11));
+  });
 });

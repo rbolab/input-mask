@@ -23,9 +23,10 @@
 ## Compatibility with Angular Versions
 
 | @ngneat/input-mask | Angular        |
-| ------------------ | -------------- |
+| ------------------ |----------------|
 | 4.x.x              | >= 11.2.7 < 13 |
 | 5.x.x              | >= 13          |
+| 5.x.x              | >= 14          |
 
 ## Features
 
